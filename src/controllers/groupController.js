@@ -3,13 +3,11 @@ const Group = require('../models/cardGroup');
 const groupController = {};
 
 groupController.getAllGroups = (req, res) => {
-    // // console.log('eee');
-    // console.log(req.body);
-//   Group.find({}).populate('cards').exec()
-//     .then((found) => {
-//       res.json(found);
-//     })
-//     .catch(() => res.sendStatus(500));
+  Group.find({}).populate('cards').exec()
+    .then((found) => {
+      res.json(found);
+    })
+    .catch(() => res.sendStatus(500));
 };
 
 groupController.addGroup = (req, res) => {

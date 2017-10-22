@@ -4,7 +4,7 @@ const authCheckMiddleware = require('../middleware/auth-check');
 
 const router = express.Router();
 
-// router.get('/api/groups', groupController.getAllGroups);
+router.get('/api/groups', groupController.getAllGroups);
 router.post('/api/groups', groupController.addGroup);
 router.post('/api/groups/:id', groupController.editGroup);
 router.delete('/api/groups/', groupController.removeGroup);
