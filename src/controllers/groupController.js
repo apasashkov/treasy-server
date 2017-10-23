@@ -1,4 +1,5 @@
 const Group = require('../models/cardGroup');
+const mongoose = require('mongoose');
 
 const groupController = {};
 
@@ -22,15 +23,41 @@ groupController.addGroup = (req, res) => {
 };
 
 groupController.editGroup = (req, res) => {
-  Group.findOneAndUpdate({ _id: req.params.id }, req.body)
-    .then(() => {
-      res.sendStatus(200);
+  if (req.params.id === 'moveCards') {
+  // MOVING CARDS
+    Group.find({
+      $or: [
+        { _id: req.body[0].groupId },
+        { _id: req.body[1].groupId },
+      ],
     })
-    .catch((err) => {
-      console.log(err);
-      res.sendStatus(500);
-    });
+      .then((foundGroups) => {
+        foundGroups.forEach((group) => {
+          for (let i = 0; i < req.body.length; i++) {
+            if (group._id.toString() === req.body[i].groupId.valueOf()) {
+              group.cards = req.body[i].cards.map(card => mongoose.Types.ObjectId(card))
+            }
+            group.save();
+          }
+        });
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
+  } else {
+    Group.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(500);
+      });
+  }
 };
+
 
 groupController.removeGroup = (req, res) => {
   Group.findByIdAndRemove(req.query.id)

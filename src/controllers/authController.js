@@ -10,7 +10,7 @@ const validateSignupForm = (payload) => {
     isFormValid = false;
     errors.login = 'Please provide a correct login.';
   }
-
+// case for limiting the number of password characters
 //   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 5) {
 //     isFormValid = false;
 //     errors.password = 'Password must have at least 5 characters.';

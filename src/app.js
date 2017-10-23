@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const passport = require('passport');
-// const seedDb = require('./seeds.js');
+const seedDb = require('./seeds.js');
 
 const app = express();
 
@@ -19,7 +19,7 @@ mongoose.connect(url, {
 require('./models/user');
 
 // // seeding DB with dummy data
-// seedDb();
+seedDb();
 
 app.use(bodyParser.json());
 
