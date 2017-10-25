@@ -1,3 +1,4 @@
+const Card = require('../models/card');
 const Group = require('../models/cardGroup');
 const mongoose = require('mongoose');
 
@@ -61,8 +62,15 @@ groupController.editGroup = (req, res) => {
 
 groupController.removeGroup = (req, res) => {
   Group.findByIdAndRemove(req.query.id)
-    .then(() => {
-      res.sendStatus(200);
+    .then((removedGroup) => {
+      Card.remove({ _id: { $in: removedGroup.cards } })
+        .then(() => {
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.sendStatus(500);
+        });
     })
     .catch((err) => {
       console.log(err);
