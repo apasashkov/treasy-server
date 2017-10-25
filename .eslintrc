@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": "airbnb",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "indent": ["error", 2],
+    "no-console": 0,
+    "linebreak-style": 0
+  }
+}
