@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
+const mongoConfig = require('./config/mongo.conf');
 
 const passport = require('passport');
 const seedDb = require('./seeds.js');
@@ -12,7 +13,7 @@ app.use(cors());
 
 // mongoose config
 mongoose.Promise = Promise;
-const url = process.env.DATABASEURL || 'mongodb://localhost/treasy';
+const url = process.env.DATABASEURL || mongoConfig;
 mongoose.connect(url, {
   useMongoClient: true,
 });
