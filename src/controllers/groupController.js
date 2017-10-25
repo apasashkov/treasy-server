@@ -35,7 +35,7 @@ groupController.editGroup = (req, res) => {
         foundGroups.forEach((group) => {
           for (let i = 0; i < req.body.length; i++) {
             if (group._id.toString() === req.body[i].groupId.valueOf()) {
-              group.cards = req.body[i].cards.map(card => mongoose.Types.ObjectId(card))
+              group.cards = req.body[i].cards.map(card => mongoose.Types.ObjectId(card));
             }
             group.save();
           }

@@ -10,11 +10,11 @@ const validateSignupForm = (payload) => {
     isFormValid = false;
     errors.login = 'Please provide a correct login.';
   }
-// case for limiting the number of password characters
-//   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 5) {
-//     isFormValid = false;
-//     errors.password = 'Password must have at least 5 characters.';
-//   }
+  // case for limiting the number of password characters
+  //   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 5) {
+  //     isFormValid = false;
+  //     errors.password = 'Password must have at least 5 characters.';
+  //   }
   if (!isFormValid) {
     message = 'Check the form for errors.';
   }
@@ -80,10 +80,33 @@ authController.register = (req, res, next) => {
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      message: 'You have successfully signed up! Now you can log in.',
-    });
+    // login after register
+    return passport.authenticate('local-login', (error, token) => {
+      if (error) {
+        if (error.name === 'IncorrectCredentialsError') {
+          return res.status(400).json({
+            success: false,
+            message: err.message,
+          });
+        }
+
+        return res.status(400).json({
+          success: false,
+          message: 'Could not process the form.',
+        });
+      }
+
+      return res.json({
+        success: true,
+        message: 'You have successfully logged in!',
+        token,
+      });
+    })(req, res, next);
+
+    // return res.status(200).json({
+    //   success: true,
+    //   message: 'You have successfully signed up! Now you can log in.',
+    // });
   })(req, res, next);
 };
 
