@@ -63,7 +63,6 @@ groupController.editGroup = (req, res) => {
 groupController.removeGroup = (req, res) => {
   Group.findByIdAndRemove(req.query.id)
     .then((removedGroup) => {
-      console.log('removedGroup', removedGroup);
       Card.remove({ _id: { $in: removedGroup.cards } })
         .then(() => {
           res.sendStatus(200);

@@ -36,8 +36,18 @@ cardController.editCard = (req, res) => {
 
 cardController.removeCard = (req, res) => {
   Card.findByIdAndRemove(req.query.id)
-    .then(() => {
-      res.sendStatus(200);
+    .then((removedCard) => {
+      Group.findById(removedCard.groupId)
+        .then((foundGroup) => {
+          const index = foundGroup.cards.indexOf(removedCard._id);
+          foundGroup.cards.splice(index, 1);
+          foundGroup.save();
+          res.sendStatus(200);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.sendStatus(500);
+        });
     })
     .catch((err) => {
       console.log(err);
